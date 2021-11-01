@@ -1,1 +1,1 @@
-# Graph Database Practices
+# Game of Thrones relationships illustrate by Graph Database Neo4j
