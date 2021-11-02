@@ -16,3 +16,15 @@ func TestInsertItem(t *testing.T) {
 	}
 	fmt.Println(result)
 }
+
+func TestReadItems(t *testing.T) {
+	driver, err := Connect("bolt://localhost:7687", "neo4j", "GameOfThrones")
+	if err != nil {
+		panic(err)
+	}
+	result, err := ReadItems(driver)
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(result)
+}

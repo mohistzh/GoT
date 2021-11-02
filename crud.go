@@ -19,6 +19,28 @@ func Close(driver neo4j.Driver, tx neo4j.Transaction) {
 	driver.Close()
 }
 
+func ReadItems(driver neo4j.Driver)(interface{}, error){
+	session := driver.NewSession(neo4j.SessionConfig{DatabaseName: "GameOfThrones"})
+	defer session.Close()
+	dataset, err := session.ReadTransaction(readItemsFn)
+	if err != nil {
+		return nil, err
+	}
+	return dataset, nil
+}
+func readItemsFn(tx neo4j.Transaction) (interface{}, error) {
+	dataset, err := tx.Run("MATCH (n) RETURN n", nil)
+	if err != nil {
+		return nil, err
+	}
+	records, err := dataset.Collect()
+	if err != nil {
+		return nil, err
+	}
+	return records, nil
+
+}
+
 func InsertItem(driver neo4j.Driver) (*Item, error) {
 	session := driver.NewSession(neo4j.SessionConfig{})
 	defer session.Close()
